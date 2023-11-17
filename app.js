@@ -11,7 +11,7 @@ app.use(express.json())
 const User = require('./models/User')
 
 app.get('/', (req, res) => {
-    res.status(200).json({ msg: "Bem vindo a nossa API!" })
+    res.status(200).json({ msg: "API Gerenciamento Financeiro" })
 })
 
 function checkToken(req, res, next){
