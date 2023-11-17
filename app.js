@@ -143,6 +143,7 @@ const tokenDB = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.lyj5bgl.mongodb.
 mongoose.connect(tokenDB).then(() => {
     app.listen(3000);
     console.log('Conectou ao banco!')
-}).catch(() => {
+}).catch((err) => {
+    console.log(err)
     console.log('Erro ao conectar no banco.')
 })
