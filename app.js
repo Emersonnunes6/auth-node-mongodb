@@ -40,10 +40,10 @@ function checkToken(req, res, next){
 }
 
 app.post("/auth/login", async (req, res) => {
-    const { username, password } = req.body
+    const { email, password } = req.body
 
-    if (!username) {
-        return res.status(422).json({ msg: "O nome é obrigatório!" })
+    if (!email) {
+        return res.status(422).json({ msg: "O email é obrigatório!" })
     }
 
     if (!password) {
@@ -59,7 +59,7 @@ app.post("/auth/login", async (req, res) => {
     const checkPassword = await bcrypt.compare(password, user.password)
 
     if (!checkPassword) {
-        return res.status(422).json({ msg: "Senha invalida." })
+        return res.status(422).json({ msg: "As credenciais não conferem, tente novamente." })
     }
 
     try {
@@ -94,10 +94,14 @@ app.get("/user/:id", checkToken, async (req, res) => {
 })
 
 app.post('/auth/register', async (req, res) => {
-    const { username, password, confirmpassword } = req.body
+    const { username, email, password, confirmpassword } = req.body
 
     if (!username) {
         return res.status(422).json({ msg: "O nome é obrigatório!" })
+    }
+
+    if (!email) {
+        return res.status(422).json({ msg: "O email é obrigatório!" })
     }
 
     if (!password) {
@@ -119,6 +123,7 @@ app.post('/auth/register', async (req, res) => {
 
     const user = new User({
         username,
+        email,
         password: passwordHash
     })
 
