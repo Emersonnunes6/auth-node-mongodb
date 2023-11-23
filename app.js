@@ -7,13 +7,11 @@ const cors = require("cors");
 
 const app = express();
 
-const corsOptions = {
-  origin: "https://api-gerenciamento-financeiro.onrender.com",
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  app.use(cors());
+  next();
+});
 
 app.use(express.json());
 
@@ -141,27 +139,6 @@ app.post("/auth/register", async (req, res) => {
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
 const tokenDB = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.lyj5bgl.mongodb.net/`;
-
-module.exports = {
-    trailingSlash: false,
-    async headers() {
-      return [
-        {
-          // matching all API routes
-          source: '/:path*',
-          headers: [
-            { key: 'Access-Control-Allow-Credentials', value: 'true' },
-            { key: 'Access-Control-Allow-Origin', value: '*' },
-            { key: 'Access-Control-Allow-Methods', value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT' },
-            { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization' },
-          ],
-        },
-      ];
-    },
-    async redirects() {
-      return [];
-    }
-  };
 
 mongoose
   .connect(tokenDB)
