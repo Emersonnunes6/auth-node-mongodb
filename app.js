@@ -7,15 +7,14 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(express.json());
-
-/* app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  app.use(cors());
-  next();
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
+    app.use(cors());
+    next();
 });
- */
+
+app.use(express.json());
 
 const User = require("./models/User");
 
@@ -42,9 +41,7 @@ function checkToken(req, res, next) {
   }
 }
 
-app.post("/auth/login", cors, async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+app.post("/auth/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
@@ -97,9 +94,7 @@ app.get("/user/:id", checkToken, async (req, res) => {
   res.status(200).json(user);
 });
 
-app.post("/auth/register", cors, async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+app.post("/auth/register", async (req, res) => {
   const { username, email, password, confirmpassword } = req.body;
 
   if (!username) {
