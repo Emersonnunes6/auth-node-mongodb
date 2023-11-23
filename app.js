@@ -7,9 +7,16 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(express.json());
+app.use((req, res, next) => {
+	//Qual site tem permissão de realizar a conexão, no exemplo abaixo está o "*" indicando que qualquer site pode fazer a conexão
+    res.header("Access-Control-Allow-Origin", "*");
+	//Quais são os métodos que a conexão pode realizar na API
+    res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
+    app.use(cors());
+    next();
+});
 
-app.use(cors());
+app.use(express.json());
 
 const User = require("./models/User");
 
@@ -90,7 +97,7 @@ app.get("/user/:id", checkToken, async (req, res) => {
 });
 
 app.post("/auth/register", async (req, res) => {
-  const { username, email, password, confirmpassword } = req.body;
+  const { username, email, password, confirmPassword } = req.body;
 
   if (!username) {
     return res.status(422).json({ msg: "O nome é obrigatório!" });
@@ -104,7 +111,7 @@ app.post("/auth/register", async (req, res) => {
     return res.status(422).json({ msg: "A senha é obrigatória!" });
   }
 
-  if (password !== confirmpassword) {
+  if (password !== confirmPassword) {
     return res.status(422).json({ msg: "As senhas não conferem" });
   }
 
