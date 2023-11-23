@@ -9,12 +9,12 @@ const app = express();
 
 app.use(express.json());
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
     app.use(cors());
     next();
-});
+}); */
 
 const User = require("./models/User");
 
@@ -94,7 +94,7 @@ app.get("/user/:id", checkToken, async (req, res) => {
   res.status(200).json(user);
 });
 
-app.post("/auth/register", async (req, res) => {
+app.post("/auth/register", cors(), async (req, res) => {
   const { username, email, password, confirmpassword } = req.body;
 
   if (!username) {
