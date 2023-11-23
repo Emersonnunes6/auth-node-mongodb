@@ -5,6 +5,14 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cors = require("cors");
 
+const corsOptions ={
+    origin:'*', 
+    credentials:true,           
+    optionSuccessStatus:200,
+ }
+ 
+ app.use(cors(corsOptions))
+
 const app = express()
 
 app.use(express.json())
@@ -145,14 +153,6 @@ app.post('/auth/register', async (req, res) => {
 const dbUser = process.env.DB_USER
 const dbPassword = process.env.DB_PASS
 const tokenDB = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.lyj5bgl.mongodb.net/`
-
-const corsOptions ={
-   origin:'*', 
-   credentials:true,           
-   optionSuccessStatus:200,
-}
-
-app.use(cors(corsOptions))
 
 mongoose.connect(tokenDB).then(() => {
     app.listen(3000);
