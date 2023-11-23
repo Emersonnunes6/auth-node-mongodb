@@ -8,7 +8,7 @@ const cors = require("cors");
 const app = express();
 
 const corsOptions = {
-  origin: "*",
+  origin: "https://api-gerenciamento-financeiro.onrender.com",
   credentials: true,
   optionSuccessStatus: 200,
 };
