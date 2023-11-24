@@ -54,7 +54,7 @@ app.post("/auth/login", async (req, res) => {
     return res.status(422).json({ msg: "A senha é obrigatória!" });
   }
 
-  const user = await User.findOne({ username: username });
+  const user = await User.findOne({ email: email});
 
   if (!user) {
     return res.status(404).json({ msg: "Usuário não encontrado." });
@@ -79,7 +79,6 @@ app.post("/auth/login", async (req, res) => {
 
     res.status(200).json({ msg: "Logado com sucesso!", token });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ msg: "Erro, tente novamente" });
   }
 });
