@@ -77,7 +77,7 @@ app.post("/auth/login", async (req, res) => {
       secret
     );
 
-    res.status(200).json({ user: user, msg: "Logado com sucesso!", token });
+    res.status(200).json({ msg: "Logado com sucesso!", token, username: user.get('username') });
   } catch (error) {
     res.status(500).json({ msg: "Erro, tente novamente" });
   }
@@ -136,7 +136,7 @@ app.post("/auth/register", async (req, res) => {
 
   try {
     user.save();
-    res.status(201).json({ user: user, msg: "Usuario criado com sucesso!" });
+    res.status(201).json({ msg: "Usuario criado com sucesso!" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Erro, tente novamente" });
